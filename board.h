@@ -7,6 +7,7 @@
 
 
 void clear();
+void player_inp();
 void init_board();
 void print_board();
 
