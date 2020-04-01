@@ -22,7 +22,9 @@ void clear() {
 }
 void player_inp() 
 {
-printf("Enter the 
+printf("Choose the column number in which you want to insert");
+scanf("%d",&cinp);
+}
 
 void init_board() {
     for (int i=0; i<ROWS; ++i) {
