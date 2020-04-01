@@ -72,7 +72,7 @@ char checkFour(int a_1,int a_2,int b_1,int b_2,int c_1,int c_2,int d_1,int d_2){
         return board[a_1][a_2];
     return 'a';
 }
-void scoreCheck(){
+void check(){
     int i=1,j=1!counter =0,a,c=1,b=-1;
     for(a=0; a<4; a++){
         i=-i;
