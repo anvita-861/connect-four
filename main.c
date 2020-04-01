@@ -1,32 +1,16 @@
 // Connect four
 #include <stdio.h>
+#include <stdlib.h>
 
-void print_board_big() {
-    int r=6, c=7;
-    printf("\n");
-    for (int i=0; i<r; ++i) {
-        for (int j=0; j<c; ++j) {
-            printf("|     ");
-        }
-        printf("|\n");
-        for (int j=0; j<c; ++j) {
-            printf("|  0  ");
-        }
-        printf("|\n");
-        for (int j=0; j<c; ++j) {
-            printf("|_____");
-        }
-        printf("|\n");
-    }
-    printf("\n");
-}
+#include "board.h"
 
 
-void print_board() {
-    int r=6, c=7;
+
+void print_board_small() {
+    //int r=6, c=7;
     printf("\n");
-    for (int i=0; i<r; ++i) {
-        for (int j=0; j<c; ++j) {
+    for (int i=0; i<ROWS; ++i) {
+        for (int j=0; j<COLUMNS; ++j) {
             printf(" 0 ");
         }
         printf("\n");
@@ -35,6 +19,7 @@ void print_board() {
 }
 
 int main() {
+    init_board();
     print_board();
     return 0;
 }
