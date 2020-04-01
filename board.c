@@ -20,7 +20,9 @@ void clear() {
         system("cls");
     #endif
 }
-
+void player_inp() 
+{
+printf("Enter the 
 
 void init_board() {
     for (int i=0; i<ROWS; ++i) {
