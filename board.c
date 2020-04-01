@@ -1,10 +1,15 @@
 #ifndef BOARD_C
 #define BOARD_C
 
+
+#include "board.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "board.h"
+
+const int ROWS=6, COLUMNS=7;
+char BOARD[ROWS][COLUMNS];
 
 void clear() {
     #if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
