@@ -67,6 +67,39 @@ void print_board() {
     printf("\n");
 }
 
+void empty()
+{
+   for(int i=ROWS;i>-1;i--)
+    {
+        
+        if(BOARD[i+1][cinp-1]==' ')
+        {
+            if(j%2==0)
+            BOARD[i+1][cinp-1]=c;
+            else
+            BOARD[i+1][cinp-1]=c;
+        
+         break;
+        } 
+    }
+}
+
+void print_ele()
+{
+    for(int j=0;j<ROWS*COLUMNS;j++)
+    {
+            if(j%2==0)
+            c='X';
+            else
+            c='O';
+            
+             empty();
+             print_board();
+         player_inp();
+    }
+  
+}
+
 char checkFour(int a_1,int a_2,int b_1,int b_2,int c_1,int c_2,int d_1,int d_2){
     if (board[a_1][a_2]==board[b_1][b_2]&&board[b_1][b_2]==board[c_1][c_2]&&board[c_1][c_2]==board[d_1][d_2]&&board[a_1][a_2]!='.')
         return board[a_1][a_2];
