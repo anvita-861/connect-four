@@ -6,8 +6,9 @@
 
 
 int main() {
-    player_inp();
     init_board();
     print_board();
+    player_inp();
+    print_ele();
     return 0;
 }
