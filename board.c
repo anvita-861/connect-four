@@ -22,8 +22,9 @@ void clear() {
 }
 void player_inp() 
 {
+int number
 printf("Choose the column number in which you want to insert");
-scanf("%d",&cinp);
+scanf("%s",&number);
 }
 
 void init_board() {
@@ -106,7 +107,7 @@ char checkFour(int a_1,int a_2,int b_1,int b_2,int c_1,int c_2,int d_1,int d_2){
     return 'a';
 }
 void check(){
-    int i=1,j=1!counter =0,a,c=1,b=-1;
+    int i=1,j=1!counter =0,a,c=1,b=-1, score_x, score_o;
     for(a=0; a<4; a++){
         i=-i;
         j=j*pow(-1,counter); //LOOPING TO CHCK SCORE IN FOUR DIRECTIONS
@@ -121,11 +122,11 @@ void check(){
     for(a=0; a<2; a++){
         c=-c;
         b*=-1;
-        if(num_rows>value+3*c&&value+3*c>=0){
+        if(ROWS>value+3*c&&value+3*c>=0){
             if('X'==checkFour(value,number-1,value+c,number-1,value+2*c,number-1,value+3*c,number-1))score_x+=1;
             if('O'==checkFour(value,number-1,value+c,number-1,value+2*c,number-1,value+3*c,number-1))score_o+=1;
         }
-        if(num_cols>number-1+3*c&&number-1+3*c>=0){
+        if(COLUMNS>number-1+3*c&&number-1+3*c>=0){
             if('X'==checkFour(value,number-1,value,number-1+c,value,number-1+2*c,value,number-1+3*c))score_x+=1;
             if('O'==checkFour(value,number-1,value,number-1+c,value,number-1+2*c,value,number-1+3*c))score_o+=1;
         }
