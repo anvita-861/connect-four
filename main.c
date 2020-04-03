@@ -9,6 +9,7 @@ int main() {
     init_board();
     print_board();
     player_inp();
+    check();
     print_ele();
     return 0;
 }
