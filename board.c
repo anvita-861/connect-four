@@ -102,8 +102,8 @@ void print_ele()
 }
 
 char checkFour(int a_1,int a_2,int b_1,int b_2,int c_1,int c_2,int d_1,int d_2){
-    if (board[a_1][a_2]==board[b_1][b_2]&&board[b_1][b_2]==board[c_1][c_2]&&board[c_1][c_2]==board[d_1][d_2]&&board[a_1][a_2]!='.')
-        return board[a_1][a_2];
+    if (BOARD[a_1][a_2]==BOARD[b_1][b_2]&&BOARD[b_1][b_2]==BOARD[c_1][c_2]&&BOARD[c_1][c_2]==BOARD[d_1][d_2]&&BOARD[a_1][a_2]!='.')
+        return BOARD[a_1][a_2];
     return 'a';
 }
 void check(){
@@ -112,7 +112,7 @@ void check(){
         i=-i;
         j=j*pow(-1,counter); //LOOPING TO CHCK SCORE IN FOUR DIRECTIONS
         counter++;
-        if(num_rows>value+i*3&&value+i*3>=0&&num_cols>number-1+j*3&&number-1+j*3>=0){
+        if(ROWS>value+i*3&&value+i*3>=0&&COLUMNS>number-1+j*3&&number-1+j*3>=0){
             if('X'==checkFour(value,number-1,value+i,number-1+j,value+i*2,number-1+j*2,value+i*3,number-1+j*3)) score_x+=1;
             if('O'==checkFour(value,number-1,value+i,number-1+j,value+i*2,number-1+j*2,value+i*3,number-1+j*3)) score_o+=1;
         }
