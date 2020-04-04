@@ -11,6 +11,14 @@
 const int ROWS=6, COLUMNS=7;
 char BOARD[ROWS][COLUMNS];
 
+int IN_GAME = 1;
+
+// To check if game in play
+int game() {
+    return IN_GAME;
+}
+
+// To clear screen
 void clear() {
     #if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
         system("clear");
@@ -20,22 +28,19 @@ void clear() {
         system("cls");
     #endif
 }
-void player_inp() 
-{
-int number
-printf("Choose the column number in which you want to insert");
-scanf("%s",&number);
-}
 
-void init_board() {
+// Reset the board to empty
+void reset_board() {
     for (int i=0; i<ROWS; ++i) {
         for (int j=0; j<COLUMNS; ++j) {
-            BOARD[i][j] = '0';
+            // ' ' represents empty
+            BOARD[i][j] = ' ';
         }
     }
 
 }
 
+// Print the board
 void print_board() {
     clear();
     printf("\n ");
@@ -68,70 +73,192 @@ void print_board() {
     printf("\n");
 }
 
-void empty()
-{
-   for(int i=ROWS;i>-1;i--)
-    {
-        
-        if(BOARD[i+1][cinp-1]==' ')
-        {
-            if(j%2==0)
-            BOARD[i+1][cinp-1]=c;
-            else
-            BOARD[i+1][cinp-1]=c;
-        
-         break;
-        } 
+// Returns input validity
+int inp_validity(int number) {
+    if (number < 1 || number > COLUMNS) {
+        return col_oob;
     }
+
+    if (BOARD[0][number-1] != ' ') {
+        return col_full;
+    }     
+
+    return valid;
 }
 
-void print_ele()
-{
-    for(int j=0;j<ROWS*COLUMNS;j++)
-    {
-            if(j%2==0)
-            c='X';
-            else
-            c='O';
-            
-             empty();
-             print_board();
-         player_inp();
+
+// To accept player input
+void player_inp(int p)  {
+    int number;
+    printf("Player #%d:\n", p);
+    printf("Enter column number: ");
+    scanf("%d", &number);
+
+    int v;
+
+    // Check validity of input
+    while ((v = inp_validity(number)) != valid) {
+
+        print_board();
+        printf("Player #%d:\n", p);
+        switch (v) {
+            // Column entered is out of bounds
+            case col_oob: {
+                printf("Input out of bounds.\n");
+                break;
+            }
+
+            // Column entered is full
+            case col_full: {
+                printf("Column full.\n");
+                
+                break;
+            }
+
+        }
+
+        // Re-input
+        printf("Enter column number: ");
+        scanf("%d", &number);
+        
     }
-  
+
+
+    update(p, number);
+
 }
 
-char checkFour(int a_1,int a_2,int b_1,int b_2,int c_1,int c_2,int d_1,int d_2){
-    if (BOARD[a_1][a_2]==BOARD[b_1][b_2]&&BOARD[b_1][b_2]==BOARD[c_1][c_2]&&BOARD[c_1][c_2]==BOARD[d_1][d_2]&&BOARD[a_1][a_2]!='.')
-        return BOARD[a_1][a_2];
-    return 'a';
-}
-void check(){
-    int i=1,j=1!counter =0,a,c=1,b=-1, score_x, score_o;
-    for(a=0; a<4; a++){
-        i=-i;
-        j=j*pow(-1,counter); //LOOPING TO CHCK SCORE IN FOUR DIRECTIONS
-        counter++;
-        if(ROWS>value+i*3&&value+i*3>=0&&COLUMNS>number-1+j*3&&number-1+j*3>=0){
-            if('X'==checkFour(value,number-1,value+i,number-1+j,value+i*2,number-1+j*2,value+i*3,number-1+j*3)) score_x+=1;
-            if('O'==checkFour(value,number-1,value+i,number-1+j,value+i*2,number-1+j*2,value+i*3,number-1+j*3)) score_o+=1;
-        }
-        if ('X'==checkFour(value,number-1,value+j,number-1+i,value-j,number-1-i,value-2*j,number-1-2*i)) score_x+=1;
-        if ('O'==checkFour(value,number-1,value+j,number-1+i,value-j,number-1-i,value-2*j,number-1-2*i)) score_o+=1;
+// Returns the first empty row of the column (not index)
+int empty_row(int number) {
+    for (int i=ROWS-1; i>=0; --i) {
+        if (BOARD[i][number-1] == ' ') 
+            return i;
     }
-    for(a=0; a<2; a++){
-        c=-c;
-        b*=-1;
-        if(ROWS>value+3*c&&value+3*c>=0){
-            if('X'==checkFour(value,number-1,value+c,number-1,value+2*c,number-1,value+3*c,number-1))score_x+=1;
-            if('O'==checkFour(value,number-1,value+c,number-1,value+2*c,number-1,value+3*c,number-1))score_o+=1;
-        }
-        if(COLUMNS>number-1+3*c&&number-1+3*c>=0){
-            if('X'==checkFour(value,number-1,value,number-1+c,value,number-1+2*c,value,number-1+3*c))score_x+=1;
-            if('O'==checkFour(value,number-1,value,number-1+c,value,number-1+2*c,value,number-1+3*c))score_o+=1;
-        }
-        if('X'==checkFour(value,number-1,value,number-1+b,value,number-1-b,value,number-1-2*b)&&value-2*b>=0)score_x+=1;
-        if('O'==checkFour(value,number-1,value,number-1+b,value,number-1-b,value,number-1-2*b)&&value-2*b>=0)score_o+=1;
-    }
+    return -1;
 }
+
+
+void update(int p, int number) {
+    // Player 1 = O
+    if (p == 1) {
+        BOARD[empty_row(number)][number-1] = 'O';
+    }
+    // Player 2 = X
+    else {
+        BOARD[empty_row(number)][number-1] = 'X';
+    }
+
+}
+
+// Check for 4
+void check() {
+
+    // Vertical lines of 4
+    for (int i=ROWS-1; i>=3; --i) {
+        for (int j=0; j<COLUMNS; ++j) {
+            if (BOARD[i][j] == ' ') {
+                continue;
+
+            }
+
+            if (BOARD[i][j] == BOARD[i-1][j] && 
+            BOARD[i-1][j] == BOARD[i-2][j] && 
+            BOARD[i-2][j] == BOARD[i-3][j]) {
+
+                IN_GAME = 0;
+
+                if (BOARD[i][j] == 'O') {
+                    printf("Player 1 wins!!\n");
+                }
+                else {
+                    printf("Player 2 wins!!\n");
+                }
+                return;
+            }
+
+        }
+    } // End of vertical
+
+    // Horizontal lines of 4
+    for (int j=COLUMNS-1; j>=3; --j) {
+        for (int i=0; i<ROWS; ++i) {
+            if (BOARD[i][j] == ' ') {
+                continue;
+
+            }
+
+            if (BOARD[i][j] == BOARD[i][j-1] && 
+            BOARD[i][j-1] == BOARD[i][j-2] && 
+            BOARD[i][j-2] == BOARD[i][j-3]) {
+
+                IN_GAME = 0;
+
+                if (BOARD[i][j] == 'O') {
+                    printf("Player 1 wins!!\n");
+                }
+                else {
+                    printf("Player 2 wins!!\n");
+                }
+                return;
+            }
+
+        }
+    } // End of horizontal
+
+    // Main diagonal lines of 4
+    for (int i=0; i<=ROWS-4; ++i) {
+        for (int j=0; j<=COLUMNS-4; ++j) {
+            if (BOARD[i][j] == ' ') {
+                continue;
+
+            }
+
+            if (BOARD[i][j] == BOARD[i+1][j+1] && 
+            BOARD[i+1][j+1] == BOARD[i+2][j+2] && 
+            BOARD[i+2][j+2] == BOARD[i+3][j+3]) {
+
+                IN_GAME = 0;
+
+                if (BOARD[i][j] == 'O') {
+                    printf("Player 1 wins!!\n");
+                }
+                else {
+                    printf("Player 2 wins!!\n");
+                }
+                return;
+            }
+
+        }
+    } // End of main diagonal
+
+    // Secondary diagonal lines of 4
+    for (int i=0; i<=ROWS-4; ++i) {
+        for (int j=COLUMNS-1; j>=3; --j) {
+            if (BOARD[i][j] == ' ') {
+                continue;
+
+            }
+
+            if (BOARD[i][j] == BOARD[i+1][j-1] && 
+            BOARD[i+1][j-1] == BOARD[i+2][j-2] && 
+            BOARD[i+2][j-2] == BOARD[i+3][j-3]) {
+
+                IN_GAME = 0;
+
+                if (BOARD[i][j] == 'O') {
+                    printf("Player 1 wins!!\n");
+                }
+                else {
+                    printf("Player 2 wins!!\n");
+                }
+                return;
+            }
+
+        }
+    } // End of secondary diagonal
+
+
+}
+
+
 #endif
