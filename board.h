@@ -19,8 +19,7 @@ void player_inp(int);       // Accepts player input
 void reset_board();         // Resets board to empty
 void print_board();         // Prints the board
 
-char checkFour();
-void check();
+void check();               // Checks for 4
 int game();                 // Returns if game is still in play
 
 #endif
